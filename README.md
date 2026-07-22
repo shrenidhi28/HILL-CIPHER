@@ -30,6 +30,74 @@ STEP-5: Combine all these groups to get the complete cipher text.
 
 ## PROGRAM 
 
+```
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int key[3][3] = {
+    {1, 2, 1},
+    {2, 3, 2},
+    {2, 2, 1}
+};
+
+void encrypt(char text[])
+{
+    int len = strlen(text);
+
+    // Padding with X
+    while(len % 3 != 0)
+    {
+        text[len] = 'X';
+        len++;
+    }
+    text[len] = '\0';
+
+    char cipher[100];
+
+    for(int i = 0; i < len; i += 3)
+    {
+        int p1 = text[i] - 'A';
+        int p2 = text[i+1] - 'A';
+        int p3 = text[i+2] - 'A';
+
+        int c1 = (key[0][0]*p1 + key[0][1]*p2 + key[0][2]*p3) % 26;
+        int c2 = (key[1][0]*p1 + key[1][1]*p2 + key[1][2]*p3) % 26;
+        int c3 = (key[2][0]*p1 + key[2][1]*p2 + key[2][2]*p3) % 26;
+
+        cipher[i]   = c1 + 'A';
+        cipher[i+1] = c2 + 'A';
+        cipher[i+2] = c3 + 'A';
+    }
+
+    cipher[len] = '\0';
+
+    printf("\nEncrypted Message : %s\n", cipher);
+}
+
+int main()
+{
+    char text[100];
+
+    printf("Enter Plain Text : ");
+    scanf("%s", text);
+
+    for(int i = 0; text[i] != '\0'; i++)
+        text[i] = toupper(text[i]);
+
+    printf("Input Message     : %s\n", text);
+
+    encrypt(text);
+
+    return 0;
+}
+```
+
 ## OUTPUT
+<img width="544" height="410" alt="image" src="https://github.com/user-attachments/assets/2f52956c-4263-4dbe-b301-ebc63385c328" />
+
 
 ## RESULT
+
+Thus, the Hill Cipher algorithm was successfully implemented using C language, and the plaintext was encrypted using the given key matrix.
+
