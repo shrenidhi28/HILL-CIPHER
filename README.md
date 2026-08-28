@@ -42,60 +42,123 @@ int key[3][3] = {
     {2, 2, 1}
 };
 
-void encrypt(char text[])
+/* Correct inverse of key matrix modulo 26 */
+int inverseKey[3][3] = {
+    {25, 0,  1},
+    {2,  25, 0},
+    {24, 2,  25}
+};
+
+/* Encryption */
+void encrypt(char text[], char cipher[])
 {
     int len = strlen(text);
 
-    // Padding with X
-    while(len % 3 != 0)
+    /* Add X padding */
+    while (len % 3 != 0)
     {
         text[len] = 'X';
         len++;
     }
+
     text[len] = '\0';
 
-    char cipher[100];
-
-    for(int i = 0; i < len; i += 3)
+    for (int i = 0; i < len; i += 3)
     {
-        int p1 = text[i] - 'A';
-        int p2 = text[i+1] - 'A';
-        int p3 = text[i+2] - 'A';
+        int p1 = text[i]     - 'A';
+        int p2 = text[i + 1] - 'A';
+        int p3 = text[i + 2] - 'A';
 
-        int c1 = (key[0][0]*p1 + key[0][1]*p2 + key[0][2]*p3) % 26;
-        int c2 = (key[1][0]*p1 + key[1][1]*p2 + key[1][2]*p3) % 26;
-        int c3 = (key[2][0]*p1 + key[2][1]*p2 + key[2][2]*p3) % 26;
+        int c1 = (key[0][0] * p1 +
+                  key[0][1] * p2 +
+                  key[0][2] * p3) % 26;
 
-        cipher[i]   = c1 + 'A';
-        cipher[i+1] = c2 + 'A';
-        cipher[i+2] = c3 + 'A';
+        int c2 = (key[1][0] * p1 +
+                  key[1][1] * p2 +
+                  key[1][2] * p3) % 26;
+
+        int c3 = (key[2][0] * p1 +
+                  key[2][1] * p2 +
+                  key[2][2] * p3) % 26;
+
+        cipher[i]     = c1 + 'A';
+        cipher[i + 1] = c2 + 'A';
+        cipher[i + 2] = c3 + 'A';
     }
 
     cipher[len] = '\0';
+}
 
-    printf("\nEncrypted Message : %s\n", cipher);
+/* Decryption */
+void decrypt(char cipher[], char plain[])
+{
+    int len = strlen(cipher);
+
+    for (int i = 0; i < len; i += 3)
+    {
+        int c1 = cipher[i]     - 'A';
+        int c2 = cipher[i + 1] - 'A';
+        int c3 = cipher[i + 2] - 'A';
+
+        int p1 = (inverseKey[0][0] * c1 +
+                  inverseKey[0][1] * c2 +
+                  inverseKey[0][2] * c3) % 26;
+
+        int p2 = (inverseKey[1][0] * c1 +
+                  inverseKey[1][1] * c2 +
+                  inverseKey[1][2] * c3) % 26;
+
+        int p3 = (inverseKey[2][0] * c1 +
+                  inverseKey[2][1] * c2 +
+                  inverseKey[2][2] * c3) % 26;
+
+        if (p1 < 0) p1 += 26;
+        if (p2 < 0) p2 += 26;
+        if (p3 < 0) p3 += 26;
+
+        plain[i]     = p1 + 'A';
+        plain[i + 1] = p2 + 'A';
+        plain[i + 2] = p3 + 'A';
+    }
+
+    plain[len] = '\0';
 }
 
 int main()
 {
     char text[100];
+    char cipher[100];
+    char plain[100];
 
     printf("Enter Plain Text : ");
-    scanf("%s", text);
+    scanf("%99s", text);
 
-    for(int i = 0; text[i] != '\0'; i++)
-        text[i] = toupper(text[i]);
+    /* Convert to uppercase */
+    for (int i = 0; text[i] != '\0'; i++)
+    {
+        text[i] = toupper((unsigned char)text[i]);
+    }
 
     printf("Input Message     : %s\n", text);
 
-    encrypt(text);
+    /* Encryption */
+    encrypt(text, cipher);
+
+    printf("\nEncrypted Message : %s\n", cipher);
+
+    /* Decryption */
+    decrypt(cipher, plain);
+
+    printf("Decrypted Message : %s\n", plain);
 
     return 0;
 }
+
+
 ```
 
 ## OUTPUT
-<img width="544" height="410" alt="image" src="https://github.com/user-attachments/assets/2f52956c-4263-4dbe-b301-ebc63385c328" />
+<img width="698" height="291" alt="image" src="https://github.com/user-attachments/assets/3502cd3c-e237-4231-ab65-2219c3786e89" />
 
 
 ## RESULT
