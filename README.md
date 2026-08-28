@@ -1,4 +1,4 @@
-# HILL CIPHER
+# EXP3-HILL CIPHER
 # Name: Shrenidhi
 # Reg No: 212223040196
 # Dept : CSE
