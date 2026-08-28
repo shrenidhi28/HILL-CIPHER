@@ -1,9 +1,10 @@
 # HILL CIPHER
-HILL CIPHER
-EX. NO: 3 AIM:
+# Name: Shrenidhi
+# Reg No: 212223040196
+# Dept : CSE
  
 
-IMPLEMENTATION OF HILL CIPHER
+## IMPLEMENTATION OF HILL CIPHER
  
 ## To write a C program to implement the hill cipher substitution techniques.
 
