@@ -1,37 +1,40 @@
-# EXP3-HILL CIPHER
-# Name: Shrenidhi
-# Reg No: 212223040196
-# Dept : CSE
- 
+**EXP. NO: 3: IMPLEMENTATION OF HILL CIPHER**
 
-## IMPLEMENTATION OF HILL CIPHER
- 
-## To write a C program to implement the hill cipher substitution techniques.
+**Name:** Shrenidhi
 
-## DESCRIPTION:
+**Reg No:** 212223040196
 
-Each letter is represented by a number modulo 26. Often the simple scheme A = 0, B
-= 1... Z = 25, is used, but this is not an essential feature of the cipher. To encrypt a message, each block of n letters is  multiplied by an invertible n × n matrix, against modulus 26. To
-decrypt the message, each block is multiplied by the inverse of the m trix used for
- 
-encryption. The matrix used
- 
-for encryption is the cipher key, and it sho
- 
-ld be chosen
- 
-randomly from the set of invertible n × n matrices (modulo 26).
+**Dept:** CSE
 
+**AIM:**
 
-## ALGORITHM:
+To write a C program to implement the Hill Cipher substitution technique.
 
-STEP-1: Read the plain text and key from the user. STEP-2: Split the plain text into groups of length three. STEP-3: Arrange the keyword in a 3*3 matrix.
-STEP-4: Multiply the two matrices to obtain the cipher text of length three.
-STEP-5: Combine all these groups to get the complete cipher text.
+**DESCRIPTION:**
 
-## PROGRAM 
+Each letter is represented by a number modulo 26. The commonly used scheme is **A = 0, B = 1, ..., Z = 25**.
 
-```
+To encrypt a message, each block of **n letters** is multiplied by an invertible **n × n matrix modulo 26**. To decrypt the message, each block is multiplied by the inverse of the matrix used for encryption.
+
+The matrix used for encryption is called the **cipher key**, and it should be chosen from the set of invertible **n × n matrices modulo 26**.
+
+**ALGORITHM:**
+
+**STEP 1:** Read the plain text from the user.
+
+**STEP 2:** Convert the plain text into groups of length three.
+
+**STEP 3:** Arrange the key values in a 3 × 3 matrix.
+
+**STEP 4:** Multiply the plaintext matrix with the key matrix modulo 26 to obtain the cipher text.
+
+**STEP 5:** Combine all the encrypted groups to obtain the complete cipher text.
+
+**STEP 6:** Use the inverse key matrix to decrypt the cipher text and obtain the original plaintext.
+
+**PROGRAM:**
+
+```c
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -44,9 +47,9 @@ int key[3][3] = {
 
 /* Correct inverse of key matrix modulo 26 */
 int inverseKey[3][3] = {
-    {25, 0,  1},
-    {2,  25, 0},
-    {24, 2,  25}
+    {25, 0, 1},
+    {2, 25, 0},
+    {24, 2, 25}
 };
 
 /* Encryption */
@@ -65,7 +68,7 @@ void encrypt(char text[], char cipher[])
 
     for (int i = 0; i < len; i += 3)
     {
-        int p1 = text[i]     - 'A';
+        int p1 = text[i] - 'A';
         int p2 = text[i + 1] - 'A';
         int p3 = text[i + 2] - 'A';
 
@@ -81,7 +84,7 @@ void encrypt(char text[], char cipher[])
                   key[2][1] * p2 +
                   key[2][2] * p3) % 26;
 
-        cipher[i]     = c1 + 'A';
+        cipher[i] = c1 + 'A';
         cipher[i + 1] = c2 + 'A';
         cipher[i + 2] = c3 + 'A';
     }
@@ -96,7 +99,7 @@ void decrypt(char cipher[], char plain[])
 
     for (int i = 0; i < len; i += 3)
     {
-        int c1 = cipher[i]     - 'A';
+        int c1 = cipher[i] - 'A';
         int c2 = cipher[i + 1] - 'A';
         int c3 = cipher[i + 2] - 'A';
 
@@ -116,7 +119,7 @@ void decrypt(char cipher[], char plain[])
         if (p2 < 0) p2 += 26;
         if (p3 < 0) p3 += 26;
 
-        plain[i]     = p1 + 'A';
+        plain[i] = p1 + 'A';
         plain[i + 1] = p2 + 'A';
         plain[i + 2] = p3 + 'A';
     }
@@ -153,15 +156,12 @@ int main()
 
     return 0;
 }
-
-
 ```
 
-## OUTPUT
+**OUTPUT:**
+
 <img width="698" height="291" alt="image" src="https://github.com/user-attachments/assets/3502cd3c-e237-4231-ab65-2219c3786e89" />
 
+**RESULT:**
 
-## RESULT
-
-Thus, the Hill Cipher algorithm was successfully implemented using C language, and the plaintext was encrypted using the given key matrix.
-
+Thus, the Hill Cipher algorithm was successfully implemented using the C language, and the plaintext was encrypted and decrypted using the given key matrix.
